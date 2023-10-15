@@ -35,7 +35,15 @@ chunk of data for a more _realistic_ feeling.
 
 ## Installation
 
-You can run
+You need to have go installed.
+
+To install it directly:
+
+```console
+go get github.com/jwbargsten/go-mssql-load
+```
+
+If you want to install it from the repo, you can run
 
 ```console
 $ go build

@@ -248,7 +248,7 @@ func parseRow(header Header, row []string, nullstr string) []any {
 func loadcsv(tblname string, f string, dsn *url.URL, nullstr string, sep rune, colTypes ColTypes) (int64, error) {
 	fp, err := util.OpenFileorStdin(f, log)
 	if err != nil {
-		return 0, fmt.Errorf("Unable to read input file: %w", err)
+		return 0, fmt.Errorf("unable to read input file: %w", err)
 	}
 	defer fp.Close()
 
