@@ -1,4 +1,4 @@
-hp	name	evolved_from
+hp::int	name::string	evolved_from::!
 3	Ivysaur	Bulbasaur
 6	Azelf	
 6		no-name-pokemon

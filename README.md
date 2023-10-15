@@ -87,8 +87,8 @@ $ echo "select * from pokemon.pokemon" | go-mssql-load --user sa --pass Passw0rd
 ### CSV loading
 
 You can use this tool to do CSV bulk loading. By default all columns are treated as
-string, but you can specify a data type as part of the column name. `loadcsv` doesn't
-have any parsing magic and uses the
+string, but you can specify a data type as part of the column name or as argument.
+`loadcsv` doesn't have any parsing magic and uses the
 [csv parser provided by the go std lib](https://pkg.go.dev/encoding/csv). So, if you
 don't specify it, it won't happen. The spec is as follows:
 
@@ -117,7 +117,7 @@ Supported types:
   `yes`, `Y`, `y`, `1` is considered true.
 - `string` as default
 
-Example: `./sql/pokemon.csv`
+Example: `./sql/pokemon_typed.csv`
 
 You can set the null string and the separator via cli flags. The null string is by
 default the empty string `""`.
@@ -126,10 +126,39 @@ The TAB character is a bit tricky to specify, but you can just supply a quoted T
 parse [TSV files](https://en.wikipedia.org/wiki/Tab-separated_values):
 
 ```console
-$ go-mssql-load --user sa --pass Passw0rd loadcsv --sep "	" pokemon.pokemon sql/pokemon.csv
+$ go-mssql-load --user sa --pass Passw0rd loadcsv --sep "	" pokemon.pokemon sql/pokemon_typed.csv
 ```
 
 Only columns that have the nullable flag `!` will use the `nullstr` flag.
+
+As mentioned in the beginning, you can also supply an external types file in JSON
+format. There are two options supported, as dict or as list.
+
+The dict looks as follows (order is not important):
+
+```
+{
+  "colname2": "int",
+  "colname1": "string!",
+  "colname3": "float!"
+}
+```
+
+Or the same as list (order is important):
+
+```
+[
+  "string!",
+  "int",
+  "float!"
+]
+```
+
+You can add the types via the `--types` parameter:
+
+```
+$ go-mssql-load --user sa --pass Passw0rd loadcsv --sep "	" --types sql/pokemon_types.json pokemon.pokemon sql/pokemon.csv
+```
 
 ### SQL execution
 
