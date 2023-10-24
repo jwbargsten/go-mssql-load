@@ -59,7 +59,7 @@ $ go install
 ## Usage
 
 Before you can use `go-mssql-load`, you have to have a mssql db running. The easiest way
-would be to use one of the official Microsoft docker containers (azure sql edge is
+would be to use one of the official Microsoft docker containers (Azure SQL edge is
 mostly compatible with mssql and it runs on M1 machines):
 
 ```console
@@ -95,7 +95,11 @@ $ echo "select * from pokemon.pokemon" | go-mssql-load --user sa --pass Passw0rd
 ### CSV loading
 
 You can use this tool to do CSV bulk loading. By default all columns are treated as
-string, but you can specify a data type as part of the column name or as argument.
+string, but you can specify a data type as
+
+* part of the column name or
+* external definition by using the `--types` parameter
+
 `loadcsv` doesn't have any parsing magic and uses the
 [csv parser provided by the go std lib](https://pkg.go.dev/encoding/csv). So, if you
 don't specify it, it won't happen. The spec is as follows:
@@ -134,7 +138,9 @@ The TAB character is a bit tricky to specify, but you can just supply a quoted T
 parse [TSV files](https://en.wikipedia.org/wiki/Tab-separated_values):
 
 ```console
-$ go-mssql-load --user sa --pass Passw0rd loadcsv --sep "	" pokemon.pokemon sql/pokemon_typed.csv
+$ go-mssql-load \
+    --user sa --pass Passw0rd loadcsv --sep "	" \
+    pokemon.pokemon sql/pokemon_typed.csv
 ```
 
 Only columns that have the nullable flag `!` will use the `nullstr` flag.
@@ -165,7 +171,10 @@ Or the same as list (order is important):
 You can add the types via the `--types` parameter:
 
 ```
-$ go-mssql-load --user sa --pass Passw0rd loadcsv --sep "	" --types sql/pokemon_types.json pokemon.pokemon sql/pokemon.csv
+$ go-mssql-load --user sa --pass Passw0rd loadcsv \
+    --sep ";" \
+    --types sql/pokemon_types.json \
+    pokemon.pokemon sql/pokemon.csv
 ```
 
 ### SQL execution

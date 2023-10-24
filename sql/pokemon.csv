@@ -1,4 +1,4 @@
-hp	name	evolved_from
-3	Ivysaur	Bulbasaur
-6	Azelf	
-6		no-name-pokemon
+hp;name;evolved_from
+3;Ivysaur;Bulbasaur
+6;Azelf;
+6;;no-name-pokemon
